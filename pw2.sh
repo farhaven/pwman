@@ -39,7 +39,7 @@ notify-send -t 5000 "User ID copied. You have 5 seconds..."
 sleep 5
 
 echo -n "$pw" | xsel -i
-notify-send -t 5000 "Password copied. You have 5 secodns..."
+notify-send -t 5000 "Password copied. You have 5 seconds..."
 sleep 5
 
 echo $RANDOM | xsel -i
