@@ -1,37 +1,46 @@
 #!/bin/sh
 
-# file layout:
-# ID | user_name | pwgen
+# Dependencies:
+# * dmenu
+# * xsel
+# * pwgen
+# * notify-send (optional, but recommended)
 
-PWFILE=~/.pwman
+# file layout
+# ID | user name | seed for pwgen
 
+PWFILE=~/.pwman.rc
 DMENU=dmenu
 [ -f ~/.dmenurc ] && . ~/.dmenurc
 
-[ ! -f $PWFILE ] && touch $PWFILE
-
-choice=`cat "$PWFILE" | ${DMENU} -l 7`
-
-if [ "$choice" == "" ]; then
+choice=`cat "$PWFILE" | $DMENU -l 7`
+if [ "x$choice" == x ]; then
 	exit
 fi
+echo $choice
 
-uid=`echo "$choice" | cut -d'|' -f2 | sed -E -e 's/[[:space:]]+//g'`
-pgen=$(sh -c "$(echo "$choice" | cut -d'|' -f3-)")
+uid=`echo $choice | cut -d'|' -f2`
+seed=`echo $choice | cut -d'|' -f3`
 
-if [ "$uid" == "" ]; then
-	uid=`echo "$pgen" | sed 1q`
-	pgen=`echo "$pgen" | sed -n -e '2p;2q'`
+uid=`echo $uid | sed -e 's/^[[:space:]]+//' -e 's/[[:space:]]+$//'`
+seed=`echo $seed | sed -e 's/^[[:space:]]+//' -e 's/[[:space:]]+$//'`
+
+pw=`pwgen -ncC -H ~/.seed#${seed} 16 2`
+
+if [ x$uid == x ]; then
+	uid=`echo $pw | cut -d' ' -f1`
+	pw=`echo $pw | cut -d' ' -f2`
+else
+	pw=`echo $pw | cut -d' ' -f1`
 fi
 
-uid=`echo "$uid" | sed -E -e 's/^[[:space:]]+//g' -e 's/[[:space:]]+$//g'`
+echo -n "$uid" | xsel -i
+notify-send -t 3000 "User ID copied. You have 3 seconds..."
+sleep 3
 
-echo -n "$uid" | xsel -i -t 2000
-notify-send -t 5000 "User ID copied. You have 2 seconds..."
-sleep 5
+echo -n "$pw" | xsel -i
+notify-send -t 3000 "Password copied. You have 3 seconds..."
+sleep 3
 
-echo -n "$pgen" | xsel -i -t 2000
-notify-send -t 5000 "Password copied. You have 2 seconds..."
-sleep 5
 echo $RANDOM | xsel -i
 notify-send "Password erased."
