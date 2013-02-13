@@ -26,3 +26,14 @@ Usage
 Start `pw.sh`. A dmenu prompt will pop up. Select one of the entries to paste the user name into the X selection. It will stay there
 for 3 seconds and then be replaced with the password, which will also stay there for 3 seconds. After that, the X selection will be
 replaced with a random number to obscure the password. That's basically it.
+
+Dependencies
+------------
+
+* dmenu
+* xsel
+* pwgen
+* notify-send
+
+`notify-send` can be ommitted but then it's much harder to see when the user name has been replaced by the password or when the
+password has been cleared.
