@@ -13,19 +13,19 @@ Setup
 Generate a seed file for pwgen: `dd if=/dev/random of=~/.seed bs=1 count=512`.
 Then create a `~/.pwman.rc` with entries in the following format:
 
-	ID | user name | seed for pwgen
+	|| ID | user name | seed for pwgen
 
 Where ID is a free form string used to identify the entry. If the user name is
 ommitted and the entry has the following format
 
-	ID | | seed
+	|| ID | | seed
 
 a username is also generated in addition to a password. Spaces are stripped
 from the seed and the user name. An example looks like this:
 
-	Amazon         | gbe | amazon
-	Github         | gbe | github
-	Something else |     | something
+	|| Amazon         | gbe | amazon
+	|| Github         | gbe | github
+	|| Something else |     | something
 
 Usage
 -----
