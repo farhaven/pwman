@@ -40,7 +40,7 @@ Dependencies
 ------------
 
 * dmenu
-* xsel
+* xclip 
 * pwgen
 * notify-send
 
