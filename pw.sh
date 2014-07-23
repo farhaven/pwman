@@ -2,7 +2,7 @@
 
 # Dependencies:
 # * dmenu
-# * xsel
+# * xclip
 # * pwgen
 # * notify-send (optional, but recommended)
 
@@ -19,8 +19,8 @@ if [ "x$choice" == x ]; then
 fi
 echo $choice
 
-uid=`echo $choice | cut -d'|' -f2`
-seed=`echo $choice | cut -d'|' -f3`
+uid=`echo $choice | cut -d'|' -f4`
+seed=`echo $choice | cut -d'|' -f5`
 
 uid=`echo $uid | sed -e 's/^[[:space:]]+//' -e 's/[[:space:]]+$//'`
 seed=`echo $seed | sed -e 's/^[[:space:]]+//' -e 's/[[:space:]]+$//'`
@@ -34,13 +34,13 @@ else
 	pw=`echo $pw | cut -d' ' -f1`
 fi
 
-echo -n "$uid" | xsel -i
+echo -n "$uid" | xclip -in -selection primary
 notify-send -t 3000 "User ID copied. You have 3 seconds..."
 sleep 3
 
-echo -n "$pw" | xsel -i
+echo -n "$pw" | xclip -in -selection primary
 notify-send -t 3000 "Password copied. You have 3 seconds..."
 sleep 3
 
-echo $RANDOM | xsel -i
+echo $RANDOM | xclip -in -selection primary
 notify-send "Password erased."
